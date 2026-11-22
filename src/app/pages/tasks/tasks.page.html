@@ -1,0 +1,144 @@
+<ion-content [fullscreen]="true">
+  <header class="hero">
+    <div class="hero__top">
+      <ion-avatar class="avatar">
+        @if (auth.user()?.photo) {
+        <img [src]="auth.user()!.photo" alt="Foto de perfil" />
+        } @else {
+        <span>{{ initials(auth.user()?.name ?? 'U') }}</span>
+        }
+      </ion-avatar>
+      <div class="hero__hello">
+        <span>{{ greeting }},</span>
+        <strong>{{ auth.user()?.name }}</strong>
+      </div>
+      <ion-button class="hero__bell" fill="clear" (click)="openReminders()" aria-label="Recordatorios">
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+    </div>
+    <h1>Mis tareas</h1>
+    @if (auth.user()?.career || auth.user()?.semester) {
+    <p class="hero__sub">
+      {{ auth.user()?.career }}{{ auth.user()?.career && auth.user()?.semester ? ' · ' : '' }}{{ auth.user()?.semester ?
+      'Semestre ' + auth.user()?.semester : '' }}
+    </p>
+    }
+  </header>
+
+  <section class="stats card">
+    <div class="ring" [style.--p]="stats().progress">
+      <span>{{ stats().progress }}%</span>
+    </div>
+    <div class="stats__item">
+      <strong>{{ stats().pending }}</strong>
+      <span>Pendientes</span>
+    </div>
+    <div class="stats__item stats__item--warn">
+      <strong>{{ stats().thisWeek }}</strong>
+      <span>Esta semana</span>
+    </div>
+    <div class="stats__item">
+      <strong>{{ stats().completed }}</strong>
+      <span>Completadas</span>
+    </div>
+  </section>
+
+  <div class="search">
+    <ion-searchbar
+      placeholder="Buscar tareas o materias"
+      [debounce]="150"
+      [value]="search()"
+      (ionInput)="search.set($event.detail.value ?? '')"
+    ></ion-searchbar>
+    <ion-button
+      class="search__filter"
+      [fill]="showFilters() ? 'solid' : 'outline'"
+      (click)="showFilters.set(!showFilters())"
+      aria-label="Filtros"
+    >
+      <ion-icon slot="icon-only" name="options-outline"></ion-icon>
+    </ion-button>
+  </div>
+
+  @if (showFilters()) {
+  <section class="filters card">
+    <ion-select
+      label="Materia"
+      labelPlacement="stacked"
+      fill="outline"
+      interface="action-sheet"
+      cancelText="Cancelar"
+      [ngModel]="subjectFilter()"
+      (ngModelChange)="subjectFilter.set($event)"
+    >
+      <ion-select-option value="todas">Todas las materias</ion-select-option>
+      @for (s of data.subjects(); track s.id) {
+      <ion-select-option [value]="s.id">{{ s.name }}</ion-select-option>
+      }
+    </ion-select>
+    <ion-select
+      label="Ordenar por"
+      labelPlacement="stacked"
+      fill="outline"
+      interface="action-sheet"
+      cancelText="Cancelar"
+      [ngModel]="sortBy()"
+      (ngModelChange)="sortBy.set($event)"
+    >
+      <ion-select-option value="dueDate">Fecha límite</ion-select-option>
+      <ion-select-option value="priority">Prioridad</ion-select-option>
+      <ion-select-option value="title">Título</ion-select-option>
+    </ion-select>
+    <ion-toggle [checked]="hideCompleted()" (ionChange)="hideCompleted.set($event.detail.checked)">
+      Ocultar completadas
+    </ion-toggle>
+  </section>
+  }
+
+  <div class="chips">
+    <ion-chip [class.chip--active]="priority() === 'todas'" (click)="priority.set('todas')">Todas</ion-chip>
+    @for (p of priorities; track p.value) {
+    <ion-chip [class.chip--active]="priority() === p.value" (click)="priority.set(p.value)">
+      <span class="dot dot--{{ p.color }}"></span>{{ p.label }}
+    </ion-chip>
+    }
+  </div>
+
+  <section class="list">
+    @for (g of groups(); track g.subject.id) {
+    <div class="group">
+      <div class="group__header">
+        <span class="group__icon" [style.background]="g.subject.color + '22'" [style.color]="g.subject.color">
+          {{ g.subject.name.charAt(0) }}
+        </span>
+        <div class="group__title">
+          <strong>{{ g.subject.name }}</strong>
+          <span>{{ g.subject.teacher }}</span>
+        </div>
+        <span class="badge">{{ g.pending }} {{ g.pending === 1 ? 'pendiente' : 'pendientes' }}</span>
+      </div>
+      @for (t of g.tasks; track t.id) {
+      <app-task-item [task]="t" [color]="g.subject.color" (completedChange)="toggle(t, $event)" (open)="openTask(t)" />
+      }
+    </div>
+    } @empty {
+    <div class="empty">
+      @if (data.tasks().length === 0) {
+      <h3>Aún no tienes tareas</h3>
+      <p>Toca el botón + para registrar tu primera tarea.</p>
+      } @else {
+      <h3>Sin resultados</h3>
+      <p>Ninguna tarea coincide con la búsqueda o los filtros.</p>
+      @if (hasActiveFilters()) {
+      <ion-button fill="outline" size="small" (click)="clearFilters()">Limpiar filtros</ion-button>
+      } }
+    </div>
+    }
+  </section>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="newTask()" aria-label="Nueva tarea">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

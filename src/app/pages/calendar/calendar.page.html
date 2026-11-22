@@ -1,0 +1,70 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Calendario</ion-title>
+    <ion-buttons slot="end">
+      @if (!isToday()) {
+      <ion-button (click)="goToday()">Hoy</ion-button>
+      }
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Calendario</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="page">
+    <div class="month">
+      <ion-button fill="clear" size="small" (click)="shiftWeek(-1)" aria-label="Semana anterior">
+        <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
+      </ion-button>
+      <span>{{ title() }}</span>
+      <ion-button fill="clear" size="small" (click)="shiftWeek(1)" aria-label="Semana siguiente">
+        <ion-icon slot="icon-only" name="chevron-forward"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="week card">
+      @for (d of week(); track d.iso) {
+      <button
+        type="button"
+        class="week__day"
+        [class.week__day--selected]="d.iso === selected()"
+        [class.week__day--today]="d.isToday"
+        (click)="selected.set(d.iso)"
+      >
+        <span class="week__label">{{ d.label }}</span>
+        <strong>{{ d.day }}</strong>
+        <span class="week__dot" [class.week__dot--on]="d.busy"></span>
+      </button>
+      }
+    </div>
+
+    <div class="agenda card">
+      @for (item of agenda(); track $index) {
+      <button type="button" class="agenda__item" (click)="open(item)">
+        <span class="agenda__time">{{ item.time }}</span>
+        <span class="agenda__bar" [style.background]="item.color"></span>
+        <span class="agenda__body">
+          <strong [class.done]="item.done">{{ item.title }}</strong>
+          <span>{{ item.subtitle }}</span>
+        </span>
+        <ion-icon [name]="item.kind === 'task' ? 'clipboard-outline' : 'calendar-outline'" color="medium"></ion-icon>
+      </button>
+      } @empty {
+      <div class="empty empty--small">
+        <p>No hay entregas ni eventos para este día.</p>
+      </div>
+      }
+    </div>
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="add()" aria-label="Agregar">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
