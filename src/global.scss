@@ -1,0 +1,528 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+@import '@ionic/angular/css/palettes/dark.system.css';
+
+/* ==========================================================================
+ * Estilos compartidos de GestU
+ * ========================================================================== */
+
+ion-content {
+  --background: var(--app-bg);
+}
+
+ion-toolbar {
+  --background: var(--app-bg);
+  --border-width: 0 !important;
+}
+
+ion-modal ion-content,
+ion-modal ion-toolbar {
+  --background: var(--app-card);
+}
+
+ion-tab-bar {
+  --background: var(--app-card);
+  border-top: 1px solid var(--app-border);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+.page {
+  padding: 0 16px 96px;
+}
+
+.page__sub {
+  margin: 0 0 12px;
+  color: var(--ion-color-medium);
+  font-size: 13px;
+}
+
+.card {
+  background: var(--app-card);
+  border: 1px solid var(--app-border);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.card--flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ---------- Avatar ---------- */
+.avatar {
+  width: 44px;
+  height: 44px;
+  background: #dbeafe;
+  color: #1e3a8a;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  flex-shrink: 0;
+}
+
+.avatar--xl {
+  width: 96px;
+  height: 96px;
+  font-size: 32px;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25);
+}
+
+/* ---------- Formularios ---------- */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.form__hint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ion-color-medium);
+}
+
+.form__label {
+  margin: 0 0 6px;
+  font-size: 13px;
+  color: var(--ion-color-medium-shade);
+}
+
+.form__question {
+  margin: 0;
+  font-weight: 600;
+}
+
+.color-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.color-picker__dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  outline: 2px solid transparent;
+}
+
+.color-picker__dot--active {
+  border-color: var(--app-card);
+  outline-color: var(--ion-color-primary);
+}
+
+.photo-edit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.photo-edit__actions {
+  display: flex;
+}
+
+/* ---------- Autenticación ---------- */
+.auth {
+  --background: linear-gradient(170deg, #1e3a8a 0%, #2563eb 38%, var(--app-bg) 38%);
+}
+
+.auth__hero {
+  color: #fff;
+  text-align: center;
+  padding: calc(var(--ion-safe-area-top, 0px) + 48px) 24px 24px;
+
+  h1 {
+    margin: 12px 0 4px;
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+  p {
+    margin: 0;
+    opacity: 0.85;
+  }
+}
+
+.auth__logo {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto;
+  border-radius: 20px;
+  background: #fff;
+  color: #1e3a8a;
+  font-size: 36px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+
+.auth__card {
+  margin: 0 16px;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--app-card);
+  border-radius: 24px;
+  padding: 24px 20px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+
+  @media (min-width: 520px) {
+    margin: 0 auto;
+  }
+}
+
+.auth__link {
+  color: var(--ion-color-primary);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.auth__link--right {
+  align-self: flex-end;
+}
+
+.auth__footer {
+  margin: 4px 0 0;
+  text-align: center;
+  font-size: 14px;
+  color: var(--ion-color-medium);
+}
+
+/* ---------- Chips, pills y badges ---------- */
+.chip--active {
+  --background: var(--ion-color-primary);
+  --color: #fff;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  display: inline-block;
+}
+
+.dot--danger {
+  background: var(--ion-color-danger);
+}
+.dot--warning {
+  background: var(--ion-color-warning);
+}
+.dot--success {
+  background: var(--ion-color-success);
+}
+
+.pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.pill--danger {
+  background: rgba(var(--ion-color-danger-rgb), 0.12);
+  color: var(--ion-color-danger-shade);
+}
+.pill--warning {
+  background: rgba(var(--ion-color-warning-rgb), 0.16);
+  color: var(--ion-color-warning-shade);
+}
+.pill--success {
+  background: rgba(var(--ion-color-success-rgb), 0.14);
+  color: var(--ion-color-success-shade);
+}
+
+.badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(var(--ion-color-primary-rgb), 0.1);
+  color: var(--ion-color-primary);
+  white-space: nowrap;
+}
+
+/* ---------- Grupos y tarjetas de tareas ---------- */
+.group {
+  margin-top: 14px;
+}
+
+.group__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.group__icon,
+.subject__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.group__title {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 0;
+
+  span {
+    font-size: 12px;
+    color: var(--ion-color-medium);
+  }
+}
+
+.task {
+  --accent: var(--ion-color-primary);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--app-card);
+  border: 1px solid var(--app-border);
+  border-left: 4px solid var(--accent);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
+
+  ion-checkbox {
+    margin-top: 2px;
+    --border-radius: 6px;
+  }
+}
+
+.task--done {
+  opacity: 0.6;
+
+  .task__title {
+    text-decoration: line-through;
+  }
+}
+
+.task__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.task__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.task__title {
+  font-weight: 600;
+}
+
+.task__subject {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.task__desc {
+  font-size: 13px;
+  color: var(--ion-color-medium);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.task__due {
+  font-size: 12px;
+  color: var(--ion-color-medium);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.task__due--urgent {
+  color: var(--ion-color-danger);
+  font-weight: 600;
+}
+
+/* ---------- Materias ---------- */
+.subject {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+}
+
+.subject__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.subject__meta {
+  font-size: 12px;
+  color: var(--ion-color-medium);
+}
+
+.subject__count {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ion-color-primary-shade);
+
+  small {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--ion-color-medium);
+  }
+}
+
+.bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--app-track);
+  overflow: hidden;
+
+  span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+  }
+}
+
+/* ---------- Detalles ---------- */
+.detail {
+  --accent: var(--ion-color-primary);
+  border-left: 6px solid var(--accent);
+  margin-bottom: 16px;
+
+  h1 {
+    margin: 8px 0 4px;
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  p {
+    margin: 4px 0 0;
+    color: var(--ion-color-medium-shade);
+  }
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.done {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0;
+
+  h2 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+/* ---------- Estados vacíos ---------- */
+.empty {
+  text-align: center;
+  padding: 40px 24px;
+  color: var(--ion-color-medium);
+
+  h3 {
+    margin: 0 0 4px;
+    color: var(--app-text);
+    font-size: 17px;
+  }
+
+  p {
+    margin: 0 0 12px;
+    font-size: 14px;
+  }
+}
+
+.empty--small {
+  padding: 16px;
+}
