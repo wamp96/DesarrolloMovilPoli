@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 
 /** Mensajes y confirmaciones reutilizables en toda la app. */
@@ -7,7 +8,19 @@ export class UiService {
   private readonly toastCtrl = inject(ToastController);
   private readonly alertCtrl = inject(AlertController);
 
+  constructor() {
+    // Un mensaje pertenece a la pantalla que lo mostró: se cierra al navegar a otra.
+    inject(Router).events.subscribe((e) => {
+      if (e instanceof NavigationStart) void this.dismissToast();
+    });
+  }
+
+  private async dismissToast(): Promise<void> {
+    if (await this.toastCtrl.getTop()) await this.toastCtrl.dismiss().catch(() => undefined);
+  }
+
   async toast(message: string, color: 'success' | 'danger' | 'medium' = 'success'): Promise<void> {
+    await this.dismissToast();
     const toast = await this.toastCtrl.create({ message, color, duration: 2200, position: 'top' });
     await toast.present();
   }
